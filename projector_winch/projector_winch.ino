@@ -7,8 +7,14 @@
 #include <utility/imumaths.h>
 #include <EEPROM.h>
 
-#define CEILING_DISTANCE 100 //distance to ceiling in mm
-int P = 30; //Proportional gain of motor speed differential per degree of tilt
+////////////////////////////// TOM-SETTABLE VALUES //////////////////////////////
+
+#define INPUT_VOLTAGE 12 // barrel jack input voltage
+#define MOTOR_VOLTAGE 5 // output voltage to motors
+#define CEILING_DISTANCE 100 // distance to ceiling in mm
+int P = 30; // Proportional gain of motor speed differential per degree of tilt
+
+/////////////////////////////////////////////////////////////////////////////////
 
 
 // Motor controller pins
@@ -173,7 +179,8 @@ void loop() {
   static unsigned long last_motor_loop;
   if(millis() - last_motor_loop > 100){
 //    print_state();
-    static const int REEL_SPD = 200;
+
+    static const int REEL_SPD = 255 * MOTOR_VOLTAGE / INPUT_VOLTAGE;
     
     if(state == reelup || state == reeldown){
       int motor_dir = 1; //down
